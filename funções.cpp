@@ -1,7 +1,4 @@
-#include <iostream>
-
-using namespace std;
-
+/* Funções que talvez sejam usadas no futuro :
 struct No{
     int valor;
     No* next;
@@ -40,19 +37,5 @@ void insert_element(struct No cur, int v){
     temp ->valor = v;
     temp ->next = cur ->next;
 
-}
-
-int main(){
-
-    int n_jog;
-    string entrada;
-    cin >> n_jog;
-    cin >> entrada;
-    while (entrada != "END"){
-        if (entrada == "DEA"){
-            
-        }
-    }
-
-    return 0;
-}
+} 
+*/
