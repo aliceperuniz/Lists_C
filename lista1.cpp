@@ -7,50 +7,50 @@ struct No{
     No* next;
 };
 
-struct bst{
-    int valor;
-    bst* left;
-    bst* right;
-};
-
 struct lista{
-    No* front;
-    No* rear;
+    No* head; //ponteiro do tipo "nó"
+    No* tale;
 };
 
-void find_element(No* head, int v){
-    No *cur = head;
-    while (cur ->next != NULL || cur ->next ->valor != v){
-        cur = cur ->next;
-    }
-    return cur;
+void iniciar_lista(lista &Lista){
+    No* head = NULL;
+    No* tale = NULL;
 };
 
-void get_element(struct No* head){
-    No *cur = head;
-    int n;
-    for(n = 0; n<pos; n++){
-        cur = cur->next;
-    }
-    return cur;
-};
-
-void insert_element(struct No cur, int v){
+void inserir_elemento(No* cur, int v){
     No* temp = new No();
     temp ->valor = v;
     temp ->next = cur ->next;
 
-}
+};
 
 int main(){
 
     int n_jog;
     string entrada;
     cin >> n_jog;
-    cin >> entrada;
+    // criando array dinâmica:
+    lista *lista_jog;
+    lista_jog = new lista[n_jog];
+
+    int n;
+    for(n=0; n<n_jog; n++){
+        iniciar_lista(lista_jog[n]);
+    }
+
     while (entrada != "END"){
+        cin >> entrada;
         if (entrada == "DEA"){
-            
+            int i = 0;
+            for(i=0; i<n_jog; i++){
+                string carta;
+                cin >> carta;
+                // adicionar carta à lista do jog[i]
+            }
+        } else if(entrada == "PRT"){
+            int num_jog;
+            cin >> num_jog ;
+            cout << ""/*lista de cartas do jogador[num_jog]*/;
         }
     }
 
