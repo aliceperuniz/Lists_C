@@ -1,4 +1,5 @@
 /* Funções que talvez sejam usadas no futuro :
+
 struct No{
     int valor;
     No* next;
@@ -37,5 +38,5 @@ void insert_element(struct No cur, int v){
     temp ->valor = v;
     temp ->next = cur ->next;
 
-} 
+};
 */
