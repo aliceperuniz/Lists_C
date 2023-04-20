@@ -24,6 +24,7 @@ void inserir_elemento(No* cur, string v){
 
 };
 
+
 int main(){
 
     int n_jog;
