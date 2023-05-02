@@ -13,7 +13,7 @@ int find(int x){
 }
  
 void unite(int x, int y){
-	
+    cout << "unite " << x << y << endl;
 	pai[find(x)]=find(y);
 }
 
@@ -25,12 +25,11 @@ int main() { // j, k, o, i, s, n, g
     int n_celulas_consultadas; // Q
     
     cin >> n_labirintos ;
-    int lista_print[n_celulas_consultadas*n_labirintos*3];
     for (int i = 0; i < n_labirintos; i++){ // para rodar em cada lab:
 
         cin >> tamanho_labirinto;
         //colocando cada célula para ser pai de si mesma (make_set):
-        for (int o = 0; o < tamanho_labirinto; o++){
+        for (int o = 0; o < tamanho_labirinto*tamanho_labirinto; o++){
             pai[o] = o;
         }
 
@@ -41,7 +40,6 @@ int main() { // j, k, o, i, s, n, g
             cin >> parede_removida;
             int numero = tamanho_labirinto - 2;
             int linha = 0;
-            bool direita = false; bool abaixo = false;
             if (parede_removida <= numero){
                 unite(parede_removida, (parede_removida + 1));
             } else{
@@ -49,28 +47,26 @@ int main() { // j, k, o, i, s, n, g
                 {
                     linha += 1;
                     if (linha%2 == 0){ // se linha = par:
-                        direita = true; abaixo = false;
                         numero += tamanho_labirinto;
                     } else { // se for ímpar
-                        abaixo = true; direita = false;
-                        numero += tamanho_labirinto - 1;
+                        numero += (tamanho_labirinto - 1);
                     }
                 }
                 // vendo qual parede da linha foi removida:
-                if (direita == true){
+                if (linha%2 == 0){
                     int temp = numero - tamanho_labirinto; int local = 0;
                     while (temp != parede_removida){
                         local += 1; temp += 1;
                     }
                     int x = (tamanho_labirinto * (linha/2) + local)-1;
-                    unite(x, x + 1);
+                    unite(x, x-1);
                 } else{
                     int temp2 = numero - tamanho_labirinto-1; int local2 = 0;
                     while (temp2 != parede_removida){
                         local2 += 1; temp2 += 1;
                     }
                     int u; u = (tamanho_labirinto * ((linha-1)/2)) + local2 - 1;
-                    unite(u, u + tamanho_labirinto);
+                    unite(u + tamanho_labirinto, u);
                 }
             }
         }
@@ -78,12 +74,14 @@ int main() { // j, k, o, i, s, n, g
         // verificando as células consultadas e printando "L.Q Y"
         for (int j = 0; j < n_celulas_consultadas; j++){
             cin >> celula_1; cin >> celula_2;
-            int y; if(pai[celula_1] == pai[celula_2]){
+            int y; 
+            if(pai[celula_1] == pai[celula_2]){
                 y = 1;
             } else{
                 y = 0;
             };
-            cout << n_labirintos << "." << j << " " << y; // talvez colocar endl.
+            cout <<"pais das cells " << pai[celula_1] << pai[celula_2] << endl;
+            cout << i << "." << j << " " << y << endl;
         }
     };
 }
