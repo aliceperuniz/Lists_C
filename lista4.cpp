@@ -15,10 +15,14 @@ int find(int x){
  
 void unite(int x, int y){
 
-    if (pai[x] > pai[y]){
-        pai[find(x)]=find(y);
-    } else if (pai[y] > pai[x]){
-        pai[find(y)]=find(x);
+    if (pai[x] != pai[y]){
+        if(size[x] > size[y]){
+            size[x] += 1;
+            pai[find(y)]=find(x);
+        } else{
+            size[y] += 1;
+            pai[find(x)]=find(y);
+        }
     } else{}
 }
 
