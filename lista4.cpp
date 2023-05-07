@@ -5,6 +5,7 @@ using namespace std;
 #define MAX (100^4)/2
 
 int pai[MAX];
+int size[MAX];
 
 int find(int x){
 	
@@ -13,11 +14,15 @@ int find(int x){
 }
  
 void unite(int x, int y){
-    cout << "unite " << x << y << endl;
-	pai[find(x)]=find(y);
+
+    if (pai[x] > pai[y]){
+        pai[find(x)]=find(y);
+    } else if (pai[y] > pai[x]){
+        pai[find(y)]=find(x);
+    } else{}
 }
 
-int main() { // j, k, o, i, s, n, g
+int main() { 
     
     int n_labirintos; // K
     int tamanho_labirinto; // N
@@ -31,6 +36,7 @@ int main() { // j, k, o, i, s, n, g
         //colocando cada célula para ser pai de si mesma (make_set):
         for (int o = 0; o < tamanho_labirinto*tamanho_labirinto; o++){
             pai[o] = o;
+            size[o] = 1;
         }
 
         cin >> n_paredes_removidas;
@@ -80,7 +86,6 @@ int main() { // j, k, o, i, s, n, g
             } else{
                 y = 0;
             };
-            cout <<"pais das cells " << pai[celula_1] << pai[celula_2] << endl;
             cout << i << "." << j << " " << y << endl;
         }
     };
