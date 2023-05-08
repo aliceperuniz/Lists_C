@@ -5,7 +5,14 @@ using namespace std;
 #define MAX (100^4)/2
 
 int pai[MAX];
-int size[MAX];
+int altura[MAX];
+
+void make_set(int n) {
+    for (int i = 0; i < n; i++) {
+        pai[i] = i;
+        altura[i] = 0;
+    }
+}
 
 int find(int x){
 	
@@ -15,15 +22,18 @@ int find(int x){
  
 void unite(int x, int y){
 
-    if (pai[x] != pai[y]){
-        if(size[x] > size[y]){
-            size[x] += 1;
-            pai[find(y)]=find(x);
-        } else{
-            size[y] += 1;
-            pai[find(x)]=find(y);
-        }
-    } else{}
+    int px = find(x);
+    int py = find(y);
+    if (altura[px] < altura[py]) {
+        pai[px] = py;
+        altura[py] += altura[px];
+    } else if (altura[px] >= altura[py]) {
+        pai[py] = px;
+        altura[px] += altura[py];
+    } else {
+        pai[py] = px;
+        altura[px] += altura[py];
+    }
 }
 
 int main() { 
@@ -34,14 +44,10 @@ int main() {
     int n_celulas_consultadas; // Q
     
     cin >> n_labirintos ;
-    for (int i = 0; i < n_labirintos; i++){ // para rodar em cada lab:
+    for (int o = 0; o < n_labirintos; o++){ // para rodar em cada lab:
 
         cin >> tamanho_labirinto;
-        //colocando cada célula para ser pai de si mesma (make_set):
-        for (int o = 0; o < tamanho_labirinto*tamanho_labirinto; o++){
-            pai[o] = o;
-            size[o] = 1;
-        }
+        make_set(tamanho_labirinto*tamanho_labirinto);
 
         cin >> n_paredes_removidas;
         cin >> n_celulas_consultadas;
@@ -51,7 +57,9 @@ int main() {
             int numero = tamanho_labirinto - 2;
             int linha = 0;
             if (parede_removida <= numero){
-                unite(parede_removida, (parede_removida + 1));
+                if (find(parede_removida) != find(parede_removida+1)){
+                    unite(parede_removida, (parede_removida + 1));
+                }
             } else{
                 while (numero < parede_removida) // verificando em qual linha a parede removida se encontra:
                 {
@@ -69,14 +77,18 @@ int main() {
                         local += 1; temp += 1;
                     }
                     int x = (tamanho_labirinto * (linha/2) + local)-1;
-                    unite(x, x-1);
+                    if (find(x) != find(x-1)){
+                        unite(x, x-1);
+                    }
                 } else{
                     int temp2 = numero - tamanho_labirinto-1; int local2 = 0;
                     while (temp2 != parede_removida){
                         local2 += 1; temp2 += 1;
                     }
                     int u; u = (tamanho_labirinto * ((linha-1)/2)) + local2 - 1;
-                    unite(u + tamanho_labirinto, u);
+                    if (find(u) != find(u+tamanho_labirinto)){
+                        unite(u + tamanho_labirinto, u);
+                    }
                 }
             }
         }
@@ -85,12 +97,12 @@ int main() {
         for (int j = 0; j < n_celulas_consultadas; j++){
             cin >> celula_1; cin >> celula_2;
             int y; 
-            if(pai[celula_1] == pai[celula_2]){
+            if(find(celula_1) == find(celula_2)){
                 y = 1;
             } else{
                 y = 0;
             };
-            cout << i << "." << j << " " << y << endl;
+            cout << o << "." << j << " " << y << endl;
         }
     };
 }
