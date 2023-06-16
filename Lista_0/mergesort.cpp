@@ -1,8 +1,6 @@
 #include <iostream>
 using namespace std;
 
-int Max = 200;
-
 void merge(int arr[], int left[], int leftSize, int right[], int rightSize) {
     int i = 0, j = 0, k = 0;
     while (i < leftSize && j < rightSize) {
