@@ -50,13 +50,14 @@ int main()
     quickSort(lista_precos, 0, n_itens - 1);
     
     int x; int y;
+    long long int soma_acumulada[n_itens + 1]; soma_acumulada[0] = 0;
+    for (int i = 1; i < n_itens + 2; i++) {
+        soma_acumulada[i] = soma_acumulada[i - 1] + lista_precos[i - 1];
+    }
     for (int n = 0; n < n_queries; n++) {
         cin >> x >> y;
         int var = n_itens - x;
-        int soma = 0;
-        for (int m = var; m < y + var; m++) {   // pegando os y menores preços da lista de x maiores preços
-            soma += lista_precos[m];
-        }
+         long long int soma = soma_acumulada[y + var] - soma_acumulada[var];
         cout << soma << endl;
     }
     return 0;
