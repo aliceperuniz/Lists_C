@@ -1,34 +1,67 @@
 #include <iostream>
 using namespace std;
 
-int binarySearch(int lista[], int left, int right, int alvo) {
-    if (right >= left) {
-        int m = (left + right) / 2;
-        if (alvo == lista[m]) {
-            return m;
-        } else if (alvo < lista[m]) {
-            return binarySearch(lista, left, m - 1, alvo);
-        } else {
-            return binarySearch(lista, m + 1, right, alvo);
-        }
-    } else{
-        return -1;
+void swap(int& a, int& b){
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+int HoarePartition(int array[], int low, int high){
+    int pivo = array[low];
+    int i = low;
+    int j = high + 1;
+    do{
+        do{
+            i++;
+        } while(!(array[i] >= pivo || i >= high));
+        do{
+            j--;
+        }while(!(array[j] <= pivo));
+        swap(array[i], array[j]);
+    } while(!(i >= j));
+    swap(array[i], array[j]);
+    swap(array[low], array[j]);
+    return j;
+}
+
+void quickSort(int array[], int low, int high){
+    if (low < high){
+        int s = HoarePartition(array, low, high);
+        quickSort(array, low, s - 1);
+        quickSort(array, s + 1, high);
     }
+}
+
+void binarySearchPair(int lista[], int left, int right, int cursor, int diferenca, int resposta, bool continua) {
+    while ((right >= left) && (continua == true)) {
+        int m = (left + right) / 2;
+        if (lista[cursor] - lista[m] == diferenca) {
+            resposta += 1; continua = false;
+        } else if (lista[cursor] - lista[m] < diferenca) {
+            right = m - 1;
+        } else {
+            left = m + 1;
+        }
+    } 
+    
 }
 
 int main() {
 
-    int entradas; int alvo;
-    cin >> entradas >> alvo;
+    int entradas; int diferenca; int resposta = 0; bool continua = true;
+    cin >> entradas >> diferenca;
     int lista_numeros[entradas];
     for (int i = 0; i < entradas; i++) {
         cin >> lista_numeros[i];
     }
-    if (binarySearch(lista_numeros, 0, entradas - 1, alvo) == -1) {
-        cout << "O numero " << alvo << " nao foi encontrado na lista.";
-    } else {
-        cout << "O número foi encontrado";
+    quickSort(lista_numeros, 0, entradas - 1);
+    int j = entradas - 1;
+    for (int n = 0; n > entradas - 1; n++) {
+        binarySearchPair(lista_numeros, 0, j, j, diferenca, resposta, continua);
+        j -= 1;
     }
+    cout << resposta;
 
     return 0;
 }
