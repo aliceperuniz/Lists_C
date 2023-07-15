@@ -33,34 +33,43 @@ void quickSort(int array[], int low, int high){
     }
 }
 
-void binarySearchPair(int lista[], int left, int right, int cursor, int diferenca, int resposta, bool continua) {
-    while ((right >= left) && (continua == true)) {
-        int m = (left + right) / 2;
-        if (lista[cursor] - lista[m] == diferenca) {
-            resposta += 1; continua = false;
-        } else if (lista[cursor] - lista[m] < diferenca) {
-            right = m - 1;
+int binarySearchPairs(int lista[], int size, int diff) {
+
+    int count = 0;
+    int left = 0;
+    int right = 1;
+
+    while (right < size) {
+        int currentDiff = lista[right] - lista[left];
+
+        if (currentDiff == diff) {
+            count++;
+            left++;
+            right++;
+        } else if (currentDiff < diff) {
+            right++;
         } else {
-            left = m + 1;
+            left++;
         }
-    } 
-    
+
+        if (left == right) {
+            right++;
+        }
+    }
+
+    return count;
 }
 
 int main() {
-
-    int entradas; int diferenca; int resposta = 0; bool continua = true;
+    
+    int entradas; int diferenca; int resposta = 0;
     cin >> entradas >> diferenca;
     int lista_numeros[entradas];
     for (int i = 0; i < entradas; i++) {
         cin >> lista_numeros[i];
     }
     quickSort(lista_numeros, 0, entradas - 1);
-    int j = entradas - 1;
-    for (int n = 0; n > entradas - 1; n++) {
-        binarySearchPair(lista_numeros, 0, j, j, diferenca, resposta, continua);
-        j -= 1;
-    }
+    resposta = binarySearchPairs(lista_numeros, entradas, diferenca);
     cout << resposta;
 
     return 0;
